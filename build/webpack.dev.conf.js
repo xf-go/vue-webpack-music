@@ -9,6 +9,20 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
+const express = require('express')
+const proxyMiddleware = require('http-proxy-middleware')
+
+const app = express()
+
+const proxyTable = config.dev.proxyTable
+// proxy api requests
+Object.keys(proxyTable).forEach(function (context) {
+  var options = proxyTable[context]
+  if (typeof options === 'string') {
+    options = { target: options }
+  }
+  app.use(proxyMiddleware(options.filter || context, options))
+})
 
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)

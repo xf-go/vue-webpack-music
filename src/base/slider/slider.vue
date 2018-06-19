@@ -45,15 +45,15 @@ export default {
       if (this.autoPlay) {
         this._play()
       }
-    }, 20)
 
-    window.addEventListener('resize', () => {
-      if (!this.slider) {
-        return
-      }
-      this._setSliderWidth(true)
-      this.slider.refresh()
-    })
+      window.addEventListener('resize', () => {
+        if (!this.slider) {
+          return
+        }
+        this._setSliderWidth(true)
+        this.slider.refresh()
+      })
+    }, 20)
   },
   methods: {
     _setSliderWidth(isResize) {
@@ -103,6 +103,9 @@ export default {
         this.slider.next()
       }, this.interval)
     }
+  },
+  destroyed() {
+    clearTimeout(this.timer)
   }
 }
 </script>
